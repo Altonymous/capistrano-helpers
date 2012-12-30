@@ -14,9 +14,16 @@ CapistranoHelpers.with_configuration do
       begin
         puts "Checking out #{branch}"
         system("git checkout #{branch}") or raise "Couldn't check out #{branch}."
+        
         puts "Checking specs..."
-        system("rake spec") or raise "One or more specs are failing. Come back when they all pass."
-        @failed = false
+        output=`rake spec`
+        if $?.success?
+          @failed = false
+        elsif output == "** Invoke spec (first_time, not_needed)"
+          raise "You do not have a 'rake spec' task.  If you are using rails add the gem 'rspec-rails' to your Gemfile."
+        else
+          raise "One or more specs are failing. Come back when they all pass."
+        end
       rescue Exception => e
         puts e
         @failed = true
