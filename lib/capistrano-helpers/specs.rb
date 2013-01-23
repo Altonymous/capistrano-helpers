@@ -6,6 +6,7 @@ CapistranoHelpers.with_configuration do
   namespace :deploy do
     desc "Make sure all specs pass"
     task :check_specs do
+      puts "Source Control Management: #{scm}"
       if scm.to_sym != :git
         abort "Sorry, you can only check specs if you're using git as your scm."
       end
