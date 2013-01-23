@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../capistrano-helpers' if ! defined?(Capistra
 require File.dirname(__FILE__) + '/branch'
 
 CapistranoHelpers.with_configuration do
- 
+
   namespace :deploy do
     desc "Make sure all specs pass"
     task :check_specs do
@@ -15,7 +15,7 @@ CapistranoHelpers.with_configuration do
         puts "Checking out #{branch}"
         system("git checkout #{branch}") or raise "Couldn't check out #{branch}."
         puts "Checking specs..."
-        system("rake spec") or raise "One or more specs are failing. Come back when they all pass."
+        system("rspec") or raise "One or more specs are failing. Come back when they all pass."
         @failed = false
       rescue Exception => e
         puts e
